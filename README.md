@@ -1,7 +1,7 @@
 # NYC Taxi Challenge
 
 This project aims to answer a few specific questions regarding the NYC Taxi Trips Dataset with the objective
-of analysing the taxi's performances and improve its through logistic reorganization and service improvement.
+of analysing the taxi's performances and improve it through logistic reorganization and service improvement.
 
 The key questions we'll answer here are:
 
