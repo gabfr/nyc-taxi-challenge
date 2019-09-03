@@ -42,7 +42,7 @@ dag = DAG('generate_monthly_graphics_dag',
 
 
 def nyc_taxi_trips_load_execution_date(dt):
-    return datetime(dt.year, 1, 1)
+    return dt.replace(month=1, day=1, hour=0, minute=0, second=0)
 
 
 wait_nyc_taxi_trips_load_task = ExternalTaskSensor(
