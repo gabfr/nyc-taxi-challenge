@@ -32,6 +32,20 @@ class SqlQueries:
             pickup_month CHAR(7) SORTKEY,
             trip_duration_avg_in_seconds NUMERIC(15,0)
         );
+        
+        DROP TABLE IF EXISTS bi_pickups;
+        CREATE TABLE bi_pickups (
+            pickup_month CHAR(7) SORTKEY,
+            pickup_latitude NUMERIC(15, 6),
+            pickup_longitude NUMERIC(15, 6)
+        ) DISTSTYLE EVEN;
+        
+        DROP TABLE IF EXISTS bi_dropoffs;
+        CREATE TABLE bi_dropoffs (
+            dropoff_month CHAR(7) SORTKEY,
+            dropoff_latitude NUMERIC(15, 6),
+            dropoff_longitude NUMERIC(15, 6)
+        ) DISTSTYLE EVEN;
     """)
 
     recreate_trips_table = ("""
@@ -166,6 +180,42 @@ class SqlQueries:
             pickup_month NOT IN (SELECT pickup_month FROM bi_monthly_avg_weekend_trips_duration)
         GROUP BY 
             1;
+    """)
+
+    upsert_bi_pickups = ("""
+        INSERT INTO bi_pickups
+        SELECT 
+            TO_CHAR(t.pickup_datetime, 'YYYY-MM') AS pickup_month,
+            t.pickup_latitude AS pickup_latitude,
+            t.pickup_longitude AS pickup_longitude
+        FROM 
+            trips t
+        WHERE
+            pickup_latitude NOT IN (
+                SELECT bi.pickup_latitude 
+                FROM bi_pickups bi
+                WHERE 
+                    bi.pickup_month = TO_CHAR(t.pickup_datetime, 'YYYY-MM') AND
+                    bi.pickup_longitude = t.pickup_longitude
+            );
+    """)
+
+    upsert_bi_dropoffs = ("""
+        INSERT INTO bi_dropoffs
+        SELECT 
+            TO_CHAR(t.dropoff_datetime, 'YYYY-MM') AS dropoff_month,
+            t.dropoff_latitude AS dropoff_latitude,
+            t.dropoff_longitude AS dropoff_longitude
+        FROM 
+            trips t
+        WHERE
+            dropoff_latitude NOT IN (
+                SELECT bi.dropoff_latitude 
+                FROM bi_dropoffs bi
+                WHERE 
+                    bi.dropoff_month = TO_CHAR(t.dropoff_datetime, 'YYYY-MM') AND
+                    bi.dropoff_longitude = t.dropoff_longitude
+            );
     """)
 
 
