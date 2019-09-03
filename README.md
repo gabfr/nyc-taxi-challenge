@@ -3,14 +3,24 @@
 This project aims to answer a few specific questions regarding the NYC Taxi Trips Dataset with the objective
 of analysing the taxi's performances and improve it through logistic reorganization and service improvement.
 
- - **[Click here to check the final analysis of this challenge](ANALYSIS.md)**
+## Summary
+
+ - [Getting Started (_running/developing the project_)](#getting-started)
+ - [DAGs](#dags)
+ - [Schema Diagram](#schema-diagram)
+ 
+### **[Resultant analysis of this challenge](ANALYSIS.md)**
  - [If you are interested, you can checkout the data exploration steps in this notebook located
 in another repository.](https://github.com/gabfr/data-engineering-nanodegree/blob/master/explorations/nyc-taxi-challenge.ipynb)
 
 ## Getting started
 
 This project is based on several DAGs (Directed Acyclic Graphs) that are executed on Apache Airflow, moreover I used
-Airflow to orchestrate all ETL processes and maintain their correct frequency along with a AWS Redshift database cluster.
+Airflow to orchestrate all ETL processes and maintain their correct frequency along with a AWS Redshift database cluster
+that is nothing more than a PostgreSQL database optimized to distribute our data across several nodes within 
+the cluster and process all our queries in a distributed fashion making it capable to process large amounts of data.
+The advantage of using the Redshift cluster is that it's easy/fast to spin up,  compatible with several data consumers/
+pipelines orchestrators (like Airflow), and has support to load JSON/CSV files right from a single short query.
 
 ### Provisioning the Redshift Cluster
 
@@ -58,3 +68,47 @@ of connections:
 | Redshift | `redshift` | `Postgres` | This one you should figure out by yourself. (It's your database credentials!) |
 | Amazon Web Services Credentials | `aws_credentials` | `Amazon Web Services` | On the **login** field you fill with your API Key. And in the password field you fill with your API Secret. |
 
+## DAGs
+
+### Recreate Analysis Tables (id: `recreate_bi_tables`)
+
+This DAG is meant to be used only to _reset_ the schema of the analytical tables. It is composed by only one task.
+That only task takes care of dropping the tables if needed and creating it again.
+
+This one shall be run manually.
+
+![dag_recreate_bi_tables](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/dag_recreate_bi_tables.png)
+
+### NYC Taxi Trips Datasets Load (id: `nyc_taxi_trips_load`)
+
+This DAG takes care of loading the CSV and the JSONs provided by the challenge. After loading it, it will run several
+_upsert_ queries that will populate the tables above. This means that if it's your first time running this project you
+should run the `recreate_bi_tables` before running this one.
+
+This DAG runs annually.
+
+![dag_nyc_taxi_trips_load](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/dag_nyc_taxi_trips_load.png)
+
+### Generate Yearly Graphics (id: `generate_yearly_graphics_dag`)
+
+This DAG takes care of reading the analytical tables and generating visualization graphs that will give us insight
+about NYC mobility.
+
+This DAG runs annually (as its names states). Tt only starts after the `nyc_taxi_trips_load` DAG finished running 
+for the current year of the current execution date.
+
+![dag_generate_yearly_graphics_dag](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/dag_generate_yearly_graphics_dag.png)
+
+### Generate Monthly Graphics (id: `generate_monthly_graphics_dag`)
+
+This DAG also takes care of reading the analytical tables and generating visualization graphs and maps that will give
+us even more detailed insights.
+
+This DAG runs monthly. And it also only starts after the `nyc_taxi_trips_load` DAG finished running for the current 
+year of the current execution date.
+
+![dag_generate_monthly_graphics_dag](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/dag_generate_monthly_graphics_dag.png)
+
+## Schema Diagram
+
+![Schema DER](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/schema_der.png)
