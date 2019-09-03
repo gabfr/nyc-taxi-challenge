@@ -8,6 +8,7 @@ of analysing the taxi's performances and improve it through logistic reorganizat
  - [Getting Started (_running/developing the project_)](#getting-started)
  - [DAGs](#dags)
  - [Schema Diagram](#schema-diagram)
+ - [Roadmap](#roadmap)
  
 ### **[Resultant analysis of this challenge](ANALYSIS.md)**
  - [If you are interested, you can checkout the data exploration steps in this notebook located
@@ -112,3 +113,11 @@ year of the current execution date.
 ## Schema Diagram
 
 ![Schema DER](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/schema_der.png)
+
+## Roadmap
+
+Next steps for this project:
+
+ - [ ] Improve the graphics visualization (fix buggy graphics that cut words in half on the legend)
+ - [ ] Improve the maps loading times and its centralization towards the plotted points
+ - [ ] Create a rich web visualization using the generated graphics
