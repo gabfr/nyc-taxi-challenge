@@ -121,3 +121,5 @@ Next steps for this project:
  - [ ] Improve the graphics visualization (fix buggy graphics that cut words in half on the legend)
  - [ ] Improve the maps loading times and its centralization towards the plotted points
  - [ ] Create a rich web visualization using the generated graphics
+ - [ ] Implement a streaming data pipeline to monitor the datasets folder, stream it to Redshift and trigger the 
+ visualization generation DAGs
