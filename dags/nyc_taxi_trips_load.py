@@ -131,6 +131,20 @@ upsert_bi_monthly_avg_weekend_trips_duration = PostgresOperator(
     sql=SqlQueries.upsert_bi_monthly_avg_weekend_trips_duration
 )
 
+upsert_bi_pickups = PostgresOperator(
+    task_id="upsert_bi_pickups",
+    dag=dag,
+    postgres_conn_id="redshift",
+    sql=SqlQueries.upsert_bi_pickups
+)
+
+upsert_bi_dropoffs = PostgresOperator(
+    task_id="upsert_bi_dropoffs",
+    dag=dag,
+    postgres_conn_id="redshift",
+    sql=SqlQueries.upsert_bi_dropoffs
+)
+
 recreate_trips_table >> load_trips_dataset
 recreate_payment_lookups_table >> load_vendor_lookups_table
 recreate_vendor_lookups_table >> load_payment_lookups_table
@@ -142,3 +156,5 @@ dummy_wait >> upsert_bi_bianual_revenue_per_vendor
 dummy_wait >> upsert_bi_monthly_price_frequency
 dummy_wait >> upsert_bi_daily_tip_amount
 dummy_wait >> upsert_bi_monthly_avg_weekend_trips_duration
+dummy_wait >> upsert_bi_pickups
+dummy_wait >> upsert_bi_dropoffs
