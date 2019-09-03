@@ -6,6 +6,7 @@ from nyc_taxi_trips_load_tasks.common.aws import upload_file_to_s3
 import pandas as pd
 from airflow.contrib.hooks.aws_hook import AwsHook
 from airflow.hooks.postgres_hook import PostgresHook
+import logging
 
 
 def generate_yearly_graphics(*args, **kwargs):
@@ -18,7 +19,7 @@ def generate_yearly_graphics(*args, **kwargs):
     execution_date = datetime.datetime.strptime(kwargs["ds"], '%Y-%m-%d')
     # # #
 
-    df = sqlio.read_sql_query("""
+    sql_query = """
         SELECT 
             pickup_date,
             avg_trip_distance
@@ -26,12 +27,17 @@ def generate_yearly_graphics(*args, **kwargs):
             bi_daily_avg_trip_distance
         WHERE
             EXTRACT(yr FROM pickup_date) = {}
-    """.format(execution_date.year), conn)
+    """.format(execution_date.year)
+
+    logging.info(sql_query)
+
+    df = sqlio.read_sql_query(sql_query, conn).sort_values(by='pickup_date')
 
     if df.empty:
+        logging.info('Query returned empty results set')
         return
 
-    df.plot()
+    df.plot(x='pickup_date', y='avg_trip_distance')
     img_name = "{}_daily_avg_trip_distance.png".format(execution_date.year)
     plt.savefig(img_name)
 
