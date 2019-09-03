@@ -94,7 +94,7 @@ This DAG runs annually.
 This DAG takes care of reading the analytical tables and generating visualization graphs that will give us insight
 about NYC mobility.
 
-This DAG runs annually (as its names states). Tt only starts after the `nyc_taxi_trips_load` DAG finished running 
+This DAG runs annually (as its names states). It only starts after the `nyc_taxi_trips_load` DAG finished running 
 for the current year of the current execution date.
 
 ![dag_generate_yearly_graphics_dag](https://raw.githubusercontent.com/gabfr/nyc-taxi-challenge/master/imgs/dag_generate_yearly_graphics_dag.png)
