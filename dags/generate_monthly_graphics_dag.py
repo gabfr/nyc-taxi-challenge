@@ -30,7 +30,7 @@ default_args = {
     # 'end_date': datetime(2009, 12, 31, 23, 59, 59),
     'depends_on_past': False,
     'retries': 1,
-    'retry_delay': timedelta(seconds=300),
+    'retry_delay': timedelta(seconds=30),
     'catchup': True
 }
 
@@ -40,10 +40,16 @@ dag = DAG('generate_monthly_graphics_dag',
           schedule_interval='@monthly'
         )
 
+
+def nyc_taxi_trips_load_execution_date(dt):
+    return datetime(dt.year, 1, 1)
+
+
 wait_nyc_taxi_trips_load_task = ExternalTaskSensor(
     task_id='wait_nyc_taxi_trips_load',
     external_dag_id='nyc_taxi_trips_load',
     external_task_id=None,
+    execution_date_fn=nyc_taxi_trips_load_execution_date,
     dag=dag, mode='reschedule'
 )
 
