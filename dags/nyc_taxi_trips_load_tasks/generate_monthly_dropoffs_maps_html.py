@@ -53,7 +53,7 @@ def build_html_for(execution_date, conn, credentials):
 
     upload_file_to_s3(
         html_file_name,
-        "data-sprints-eng-test/outputs/{}".format(html_file_name),
+        "data-sprints-eng-test/outputs/monthly/{}".format(html_file_name),
         credentials,
         "text/html"
     )
