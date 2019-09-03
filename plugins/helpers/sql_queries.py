@@ -135,6 +135,7 @@ class SqlQueries:
         FROM
             trips
         WHERE
+            LOWER(payment_type) = 'cash' AND 
             pickup_month NOT IN (SELECT bi.pickup_month FROM bi_monthly_price_frequency bi WHERE bi.amount_group = amount_group)
         GROUP BY
             1, 2;
