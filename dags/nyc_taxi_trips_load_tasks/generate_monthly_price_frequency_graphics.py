@@ -12,19 +12,21 @@ import logging
 def build_query_for(year, month):
     return """
         SELECT 
+            CAST(SPLIT_PART(REPLACE(amount_group, '$', ''), '-', 1) AS NUMERIC) AS amount_group_start_range,
             amount_group,
             frequency
         FROM 
             bi_monthly_price_frequency
         WHERE
             pickup_month = '{}-{}'
+        ORDER BY 1
     """.format(year, '0' + str(month) if month < 10 else month)
 
 
 def build_graphic_for(execution_date, conn, credentials):
     sql_query = build_query_for(execution_date.year, execution_date.month)
     logging.info(sql_query)
-    df = sqlio.read_sql_query(sql_query, conn).sort_values(by='amount_group')
+    df = sqlio.read_sql_query(sql_query, conn)
 
     if df.empty:
         logging.info('Query returned empty results set')
