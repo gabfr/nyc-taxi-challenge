@@ -8,7 +8,7 @@ from airflow.operators import (
     StageCsvToRedshiftOperator, PostgresOperator, StageJsonToRedshiftOperator,
     LoadDimensionOperator, LoadFactOperator, DataQualityOperator
 )
-from airflow.operators.sensors import TimeDeltaSensor
+from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from helpers import SqlQueries
 from nyc_taxi_trips_load_tasks.generate_monthly_price_frequency_graphics import (
     generate_monthly_graphics as generate_price_frequency_graphics
@@ -40,6 +40,13 @@ dag = DAG('generate_monthly_graphics_dag',
           schedule_interval='@monthly'
         )
 
+wait_nyc_taxi_trips_load_task = ExternalTaskSensor(
+    task_id='wait_nyc_taxi_trips_load',
+    external_dag_id='nyc_taxi_trips_load',
+    external_task_id=None,
+    dag=dag, mode='reschedule'
+)
+
 generate_monthly_price_frequency_graphics_task = PythonOperator(
     task_id='generate_monthly_price_frequency_graphics',
     dag=dag,
@@ -70,7 +77,7 @@ generate_monthly_dropoffs_maps_htmls_task = PythonOperator(
 
 
 
-generate_monthly_price_frequency_graphics_task
-generate_monthly_tip_amount_graphics_task
-generate_monthly_pickups_maps_htmls_task
-generate_monthly_dropoffs_maps_htmls_task
+wait_nyc_taxi_trips_load_task >> generate_monthly_price_frequency_graphics_task
+wait_nyc_taxi_trips_load_task >> generate_monthly_tip_amount_graphics_task
+wait_nyc_taxi_trips_load_task >> generate_monthly_pickups_maps_htmls_task
+wait_nyc_taxi_trips_load_task >> generate_monthly_dropoffs_maps_htmls_task

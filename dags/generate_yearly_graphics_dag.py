@@ -8,6 +8,7 @@ from airflow.operators import (
     StageCsvToRedshiftOperator, PostgresOperator, StageJsonToRedshiftOperator,
     LoadDimensionOperator, LoadFactOperator, DataQualityOperator
 )
+from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from airflow.operators.sensors import TimeDeltaSensor
 from helpers import SqlQueries
 from nyc_taxi_trips_load_tasks.generate_daily_avg_trip_distance_graphics import (
@@ -39,6 +40,13 @@ dag = DAG('generate_yearly_graphics_dag',
           schedule_interval='@yearly'
         )
 
+wait_nyc_taxi_trips_load_task = ExternalTaskSensor(
+    task_id='wait_nyc_taxi_trips_load',
+    external_dag_id='nyc_taxi_trips_load',
+    external_task_id=None,
+    dag=dag, mode='reschedule'
+)
+
 generate_daily_avg_trip_distance_graphics_task = PythonOperator(
     task_id='generate_daily_avg_trip_distance_graphics',
     dag=dag,
@@ -60,6 +68,6 @@ generate_yearly_avg_weekend_trips_duration_graphics_task = PythonOperator(
     provide_context=True
 )
 
-generate_daily_avg_trip_distance_graphics_task
-generate_bianual_revenue_per_vendor_graphics_task
-generate_yearly_avg_weekend_trips_duration_graphics_task
+wait_nyc_taxi_trips_load_task >> generate_daily_avg_trip_distance_graphics_task
+wait_nyc_taxi_trips_load_task >> generate_bianual_revenue_per_vendor_graphics_task
+wait_nyc_taxi_trips_load_task >> generate_yearly_avg_weekend_trips_duration_graphics_task

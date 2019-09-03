@@ -14,7 +14,7 @@ from helpers import SqlQueries
 
 default_args = {
     'owner': 'gabriel',
-    'start_date': datetime(2009, 1, 1, 23, 0, 0),
+    'start_date': datetime(2009, 1, 1, 0, 0, 0),
     'end_date': datetime(2012, 12, 31, 23, 59, 59),
     # 'end_date': datetime(2009, 12, 31, 23, 59, 59),
     'depends_on_past': False,
