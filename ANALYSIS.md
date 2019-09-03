@@ -97,9 +97,6 @@ histogram:
     / [August](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-8_monthly_price_frequency.png)
     / [September](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-9_monthly_price_frequency.png)
     / [October](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-10_monthly_price_frequency.png)
-    / [November](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-11_monthly_price_frequency.png)
-    / [December](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-12_monthly_price_frequency.png)
-     
 
 ## Daily tips revenue amount in the last 3 months of 2012
 
@@ -162,9 +159,6 @@ graphic point into a daily revenue amount sum:
     / [August](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-8_daily_tip_amount.png)
     / [September](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-9_daily_tip_amount.png)
     / [October](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-10_daily_tip_amount.png)
-    / [November](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-11_daily_tip_amount.png)
-    / [December](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-12_daily_tip_amount.png)
-     
 
 ## Monthly average trip duration on weekends
 
@@ -243,9 +237,7 @@ the blue ocean near new york offshore. Just zoom out and you will see NYC. Thank
     / [August](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-8_pickups_map.html)
     / [September](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-9_pickups_map.html)
     / [October](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-10_pickups_map.html)
-    / [November](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-11_pickups_map.html)
-    / [December](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-12_pickups_map.html)
-    
+
 ## Visualization map per month of dropoffs
 
 To optimize our urban logistics grouping the dropoffs locations is a must too, to analyze the best traffic flow
@@ -309,6 +301,3 @@ the blue ocean near new york offshore. Just zoom out and you will see NYC. Thank
     / [August](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-8_dropoffs_map.html)
     / [September](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-9_dropoffs_map.html)
     / [October](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-10_dropoffs_map.html)
-    / [November](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-11_dropoffs_map.html)
-    / [December](https://social-wiki-datalake.s3.amazonaws.com/data-sprints-eng-test/outputs/monthly/2012-12_dropoffs_map.html)
-    
