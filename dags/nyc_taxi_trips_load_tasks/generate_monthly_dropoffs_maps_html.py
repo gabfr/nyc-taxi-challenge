@@ -8,6 +8,7 @@ import pandas as pd
 from airflow.contrib.hooks.aws_hook import AwsHook
 from airflow.hooks.postgres_hook import PostgresHook
 import os
+import logging
 
 
 def build_query_for(year, month):
@@ -16,16 +17,19 @@ def build_query_for(year, month):
             dropoff_latitude,
             dropoff_longitude
         FROM 
-            trips
+            bi_dropoffs
         WHERE
-            TO_CHAR(dropoff_datetime, 'YYYY-MM') = '{}-{}'
+            dropoff_month = '{}-{}'
     """.format(year, '0' + str(month) if month < 10 else month)
 
 
 def build_html_for(execution_date, conn, credentials):
-    df = sqlio.read_sql_query(build_query_for(execution_date.year, execution_date.month), conn)
+    sql_query = build_query_for(execution_date.year, execution_date.month)
+    logging.info(sql_query)
+    df = sqlio.read_sql_query(sql_query, conn)
 
     if df.empty:
+        logging.info('Query returned empty results set')
         return
 
     dropoff_map = Map(
