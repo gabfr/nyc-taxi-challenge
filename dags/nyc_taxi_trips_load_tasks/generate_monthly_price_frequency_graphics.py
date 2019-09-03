@@ -6,6 +6,7 @@ import pandas as pd
 from airflow.contrib.hooks.aws_hook import AwsHook
 from airflow.hooks.postgres_hook import PostgresHook
 import os
+import logging
 
 
 def build_query_for(year, month):
@@ -21,12 +22,15 @@ def build_query_for(year, month):
 
 
 def build_graphic_for(execution_date, conn, credentials):
-    df = sqlio.read_sql_query(build_query_for(execution_date.year, execution_date.month), conn)
+    sql_query = build_query_for(execution_date.year, execution_date.month)
+    logging.info(sql_query)
+    df = sqlio.read_sql_query(sql_query, conn).sort_values(by='amount_group')
 
     if df.empty:
+        logging.info('Query returned empty results set')
         return
 
-    df.plot(kind='pie',y='amount_group')
+    df.plot(kind='bar', x='amount_group', y='frequency')
     img_name = "{}-{}_monthly_price_frequency.png".format(execution_date.year, execution_date.month)
     plt.savefig(img_name)
 
