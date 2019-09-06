@@ -32,7 +32,7 @@ def build_graphic_for(execution_date, conn, credentials):
 
     df.plot(y='tip_amount_sum', x='pickup_date')
     img_name = "{}-{}_daily_tip_amount.png".format(execution_date.year, execution_date.month)
-    plt.savefig(img_name)
+    plt.savefig(img_name, bbox_inches='tight')
 
     upload_file_to_s3(img_name, "data-sprints-eng-test/outputs/monthly/{}".format(img_name), credentials)
 

@@ -32,7 +32,7 @@ def build_graphic_for(execution_date, semester, conn, credentials):
 
     df.plot(kind='bar',y='total_amount_sum', x='vendor_name')
     img_name = "{}-{}_bianual_revenue_per_vendor.png".format(execution_date.year, semester)
-    plt.savefig(img_name)
+    plt.savefig(img_name, bbox_inches='tight')
 
     upload_file_to_s3(img_name, "data-sprints-eng-test/outputs/{}".format(img_name), credentials)
 

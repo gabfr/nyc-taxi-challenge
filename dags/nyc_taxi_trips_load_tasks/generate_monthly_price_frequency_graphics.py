@@ -34,7 +34,7 @@ def build_graphic_for(execution_date, conn, credentials):
 
     df.plot(kind='bar', x='amount_group', y='frequency')
     img_name = "{}-{}_monthly_price_frequency.png".format(execution_date.year, execution_date.month)
-    plt.savefig(img_name)
+    plt.savefig(img_name, bbox_inches='tight')
 
     upload_file_to_s3(img_name, "data-sprints-eng-test/outputs/monthly/{}".format(img_name), credentials)
 

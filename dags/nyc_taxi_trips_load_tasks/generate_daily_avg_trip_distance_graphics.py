@@ -39,7 +39,7 @@ def generate_yearly_graphics(*args, **kwargs):
 
     df.plot(x='pickup_date', y='avg_trip_distance')
     img_name = "{}_daily_avg_trip_distance.png".format(execution_date.year)
-    plt.savefig(img_name)
+    plt.savefig(img_name, bbox_inches='tight')
 
     upload_file_to_s3(img_name, "data-sprints-eng-test/outputs/{}".format(img_name), credentials)
 
