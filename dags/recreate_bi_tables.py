@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators import PostgresOperator
+from airflow.operators.sensors import TimeDeltaSensor
 from helpers import SqlQueries
 
 
@@ -21,6 +22,12 @@ dag = DAG('recreate_bi_tables',
           max_active_runs=1
         )
 
+dummy_wait = TimeDeltaSensor(
+    task_id='dummy_wait',
+    dag=dag,
+    delta=timedelta(seconds=1)
+)
+
 recreate_bi_tables = PostgresOperator(
     task_id="recreate_bi_tables_task",
     dag=dag,
@@ -28,4 +35,4 @@ recreate_bi_tables = PostgresOperator(
     sql=SqlQueries.recreate_bi_tables
 )
 
-recreate_bi_tables
+dummy_wait >> recreate_bi_tables
