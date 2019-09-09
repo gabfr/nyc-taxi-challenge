@@ -2,8 +2,7 @@
 
 This analysis will focus on logistic improvement of our taxi fleets. It was made from data from 2009 to 2012.
 
-All the questions below are answered with graphics. Besides my initiative of plotting graphics through the Airflow DAG.
-My strength is not in `matplotlib`, so there's some graphics that are buggy with legend being cut by the image canvas.
+All the questions below are answered with graphics. There may be some graphics that was plotted with imperfections. 
 Because of my short time to do this challenge I decided to focus more on the ETL structure than on the graphic 
 appeareance. Moreover, on the roadmap of this project I will beauty up those graphics as soon as I get a chance.
 
