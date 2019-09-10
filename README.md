@@ -120,7 +120,7 @@ Next steps for this project:
 
  - [ ] Refactor the `aws` python scripts that manage the infrastructure creation to be tasks within a DAG that auto spin up, run all the ETL process and then spin down the infrastructure
  - [X] Improve the graphics visualization (fix buggy graphics that cut words in half on the legend)
- - [ ] Fix the graphics visualization x labels that override each other (make them vertically aligned)
+ - [X] Fix the graphics visualization x labels that override each other (make them vertically aligned)
  - [ ] Improve the maps loading times and its centralization towards the plotted points
  - [ ] Create a rich web visualization using the generated graphics
  - [ ] Implement a streaming data pipeline to monitor the datasets folder, stream it to Redshift and trigger the 
