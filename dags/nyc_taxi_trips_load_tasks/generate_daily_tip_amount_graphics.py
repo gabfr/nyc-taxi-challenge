@@ -31,6 +31,8 @@ def build_graphic_for(execution_date, conn, credentials):
         return
 
     df.plot(y='tip_amount_sum', x='pickup_date')
+    x_or_labels = df['pickup_date'].tolist()
+    plt.xticks(x_or_labels, x_or_labels, rotation='vertical')
     img_name = "{}-{}_daily_tip_amount.png".format(execution_date.year, execution_date.month)
     plt.savefig(img_name, bbox_inches='tight')
 

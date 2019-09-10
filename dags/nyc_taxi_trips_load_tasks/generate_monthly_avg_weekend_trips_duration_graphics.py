@@ -31,6 +31,8 @@ def build_graphic_for(execution_date, conn, credentials):
         return
 
     df.plot(x='pickup_month', y='trip_duration_avg_in_seconds')
+    x_or_labels = df['pickup_month'].tolist()
+    plt.xticks(x_or_labels, x_or_labels, rotation='vertical')
     img_name = "{}_monthly_avg_weekend_trips_duration.png".format(execution_date.year)
     plt.savefig(img_name, bbox_inches='tight')
 

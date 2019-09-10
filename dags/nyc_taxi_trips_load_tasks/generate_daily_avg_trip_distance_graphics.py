@@ -38,6 +38,8 @@ def generate_yearly_graphics(*args, **kwargs):
         return
 
     df.plot(x='pickup_date', y='avg_trip_distance')
+    x_or_labels = df['pickup_date'].tolist()
+    plt.xticks(x_or_labels, x_or_labels, rotation='vertical')
     img_name = "{}_daily_avg_trip_distance.png".format(execution_date.year)
     plt.savefig(img_name, bbox_inches='tight')
 
